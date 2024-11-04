@@ -5,10 +5,10 @@ import * as cheerio from "cheerio";
 interface Chapter {
   chapterTitle: string;
   chapterUrl: string;
-  verses: Verse[];
+  subChapters: subChapters[];
 }
 
-interface Verse {
+interface subChapters {
   subChapterLink: string;
   subChapterContent: string;
 }
@@ -28,7 +28,7 @@ chapterApi.post("/", async (c) => {
     const chapterUrl = $(element).attr("href");
 
     if (chapterUrl) {
-      chapters.push({ chapterTitle, chapterUrl, verses: [] });
+      chapters.push({ chapterTitle, chapterUrl, subChapters: [] });
     }
   });
 
@@ -60,7 +60,7 @@ chapterApi.post("/", async (c) => {
           const additionalData = subChapterPage("p").text().trim();
           console.log(additionalData);
 
-          chapter.verses.push({ subChapterLink, subChapterContent });
+          chapter.subChapters.push({ subChapterLink, subChapterContent });
         }
       }
     } catch (error) {
