@@ -1,0 +1,5 @@
+export * from "./tbl_books"
+export * from "./tbl_chapters"
+export * from "./tbl_sub_chapters"
+export * from "./tbl_sub_books"
+export * from "./tbl_purports"

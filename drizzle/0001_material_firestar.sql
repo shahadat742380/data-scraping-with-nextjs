@@ -1,0 +1,1 @@
+ALTER TABLE "tbl_chapters" ALTER COLUMN "sub_book_id" DROP NOT NULL;

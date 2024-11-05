@@ -5,6 +5,7 @@ import * as cheerio from "cheerio";
 interface Chapter {
   chapterTitle: string;
   chapterUrl: string;
+  subChapterParagraph?: string;
   subChapters: subChapters[];
 }
 
@@ -23,10 +24,13 @@ const baseURL = "https://vedabase.io";
 export const chapterApi = new Hono();
 
 chapterApi.post("/", async (c) => {
-  const response = await axios.get(`${baseURL}/en/library/bg/`);
+  const response = await axios.get(`${baseURL}/en/library/sb/5/`);
   const $ = cheerio.load(response.data);
 
   const chapters: Chapter[] = [];
+
+  const bookName = $(".r-title ").text().trim();
+  console.log(bookName);
 
   $(".r-chapter a").each((index, element) => {
     const chapterTitle = $(element).text().trim();
@@ -43,6 +47,13 @@ chapterApi.post("/", async (c) => {
         `${baseURL}${chapter.chapterUrl}`
       );
       const chapterPage = cheerio.load(chapterResponse.data);
+      const subChapterParagraph= chapterPage(".r-paragraph").text().trim();
+
+      // if(subChapterParagraph){
+      //   chapters.push(subChapterParagraph)
+      // }
+      
+
       const verseElements = chapterPage(".r-verse");
 
       // @ts-ignore
@@ -55,6 +66,7 @@ chapterApi.post("/", async (c) => {
           .find("dd")
           .text()
           .trim();
+
 
         if (subChapterLink && subChapterContent) {
           const fullSubChapterLink = `${baseURL}${subChapterLink}`;
@@ -83,9 +95,6 @@ chapterApi.post("/", async (c) => {
             purports.push(paragraphText);
           });
 
-          console.log(purports);
-          
-
           chapter.subChapters.push({
             subChapterLink: fullSubChapterLink,
             subChapterContent,
@@ -102,7 +111,7 @@ chapterApi.post("/", async (c) => {
     }
   }
 
-  // console.log(chapters);
+  console.log(chapters);
 
   return c.json(chapters);
 });
