@@ -19,11 +19,6 @@ const config = {
     },
     extend: {
       colors: {
-        vvp: {
-          primary: "#FF6260",
-          gray: "#4F4F4F",
-          cyan: "#436073"
-        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

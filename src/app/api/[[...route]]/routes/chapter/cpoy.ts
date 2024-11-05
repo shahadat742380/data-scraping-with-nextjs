@@ -22,7 +22,6 @@ const baseURL = "https://vedabase.io";
 
 export const chapterApi = new Hono();
 
-
 chapterApi.post("/", async (c) => {
   const response = await axios.get(`${baseURL}/en/library/bg/`);
   const $ = cheerio.load(response.data);

@@ -9,7 +9,7 @@ const app = new Hono().basePath("/api");
 
 app.get("/", (c) => {
   return c.json({
-    message: "VVP server is running...🚀",
+    message: "Server is running...🚀",
   });
 });
 
